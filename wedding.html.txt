@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>婚礼倒计时 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 50%, #ffd6e8 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 背景装饰 */
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            animation: float 15s infinite ease-in-out;
+            opacity: 0.7;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 1;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 30px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(255, 182, 193, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            max-width: 90%;
+            width: 800px;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            color: #d63384;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(45deg, #ff6b9d, #d63384);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.8em;
+            color: #8e44ad;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 25px;
+            padding: 25px 15px;
+            min-width: 130px;
+            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .time-box:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255, 255, 255, 0.55);
+            box-shadow: 0 12px 25px rgba(255, 182, 193, 0.25);
+        }
+
+        .time-number {
+            font-size: 3.2em;
+            font-weight: bold;
+            color: #e91e63;
+            display: block;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .time-label {
+            font-size: 1.3em;
+            color: #8e44ad;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .message {
+            font-size: 1.6em;
+            color: #d63384;
+            margin-top: 30px;
+            font-style: italic;
+            font-weight: 300;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+            padding: 0 20px;
+            line-height: 1.6;
+        }
+
+        .emoji {
+            font-size: 2.2em;
+            margin: 0 15px;
+            animation: pulse 1.5s infinite;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .subtitle {
+                font-size: 1.3em;
+            }
+            
+            .countdown {
+                gap: 15px;
+            }
+            
+            .time-box {
+                min-width: 100px;
+                padding: 20px 10px;
+            }
+            
+            .time-number {
+                font-size: 2.2em;
+            }
+            
+            .time-label {
+                font-size: 1em;
+            }
+            
+            .message {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .subtitle {
+                font-size: 1.1em;
+            }
+            
+            .countdown {
+                gap: 10px;
+            }
+            
+            .time-box {
+                min-width: 80px;
+                padding: 15px 8px;
+            }
+            
+            .time-number {
+                font-size: 1.8em;
+            }
+            
+            .time-label {
+                font-size: 0.9em;
+            }
+            
+            .message {
+                font-size: 1em;
+            }
+            
+            .emoji {
+                font-size: 1.5em;
+                margin: 0 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container">
+        <h1>💕 我们的婚礼倒计时 💕</h1>
+        <p class="subtitle">距离我们的大日子还有...</p>
+        
+        <div class="countdown">
+            <div class="time-box">
+                <span class="time-number" id="days">00</span>
+                <span class="time-label">天</span>
+            </div>
+            <div class="time-box">
+                <span class="time-number" id="hours">00</span>
+                <span class="time-label">小时</span>
+            </div>
+            <div class="time-box">
+                <span class="time-number" id="minutes">00</span>
+                <span class="time-label">分钟</span>
+            </div>
+            <div class="time-box">
+                <span class="time-number" id="seconds">00</span>
+                <span class="time-label">秒</span>
+            </div>
+        </div>
+        
+        <p class="message">
+            <span class="emoji">💕</span>
+            2025年10月16日，我们将携手步入婚姻的殿堂
+            <span class="emoji">💕</span>
+        </p>
+    </div>
+
+    <script>
+        // 婚礼日期 - 2025年10月16日
+        const weddingDate = new Date('2025-10-16T00:00:00+08:00').getTime();
+
+        // 创建飘落的爱心
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💕';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('hearts').appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 20000);
+        }
+
+        // 每隔一段时间创建新的爱心
+        setInterval(createHeart, 1500);
+
+        // 倒计时功能
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            if (distance < 0) {
+                // 婚礼当天或已过
+                document.querySelector('.subtitle').innerHTML = '💕 我们结婚啦！💕';
+                document.querySelector('.countdown').style.display = 'none';
+                document.querySelector('.message').innerHTML = '<span class="emoji">💕</span> 感谢大家的祝福！<span class="emoji">💕</span>';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        // 初始化倒计时
+        updateCountdown();
+        
+        // 每秒更新一次
+        setInterval(updateCountdown, 1000);
+
+        // 页面加载时创建一些爱心
+        window.addEventListener('load', () => {
+            for (let i = 0; i < 8; i++) {
+                setTimeout(createHeart, i * 300);
+            }
+        });
+
+        // 添加点击效果
+        document.addEventListener('click', (e) => {
+            const heart = document.createElement('div');
+            heart.innerHTML = '💕';
+            heart.style.position = 'fixed';
+            heart.style.left = e.clientX + 'px';
+            heart.style.top = e.clientY + 'px';
+            heart.style.fontSize = '24px';
+            heart.style.pointerEvents = 'none';
+            heart.style.animation = 'float 2s ease-out forwards';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
